@@ -124,26 +124,66 @@ sidebar = dbc.Card(
             value=["stack"],
             className="mb-2",
         ),
-    ]),
-    className="mb-3",
+        html.Span(
+            "i",
+            id="percent-help",
+            title="Info",
+            className="ms-1 me-auto d-inline-flex align-items-center justify-content-center border rounded-circle",
+            style={"width":"18px","height":"18px","fontWeight":"600","cursor":"pointer","fontSize":"12px"}
+        ),
+        dbc.Tooltip(
+            "Pour le calcul des pourcentages, les valeurs négatives (pompage, exportation) "
+            "ne sont pas prises en compte dans le total.",
+            target="percent-help",
+            placement="right",
+        ),
+            ]),
+            className="mb-3",
 )
 
+# -------------------------------
 kpi_cards = dbc.Row([
     dbc.Col(dbc.Card(dbc.CardBody([
-        html.Div("Puissance moyenne", className="text-muted small"),
-        html.H4(id="kpi-avg", className="m-0")
+        html.Div([
+            "Puissance moyenne",
+            html.Span(" i", id="kpi-avg-help", className="ms-1 text-secondary", style={"cursor":"pointer"}),
+            dbc.Tooltip(
+                "Moyenne sur la période sélectionnée. Les valeurs négatives (ex : pompage, exportation) ne sont pas prises en compte.",
+                target="kpi-avg-help", placement="right"
+            ),
+        ], className="text-muted small"),
+        html.H4(id="kpi-avg", className="m-0"),
     ])), md=4),
+
     dbc.Col(dbc.Card(dbc.CardBody([
-        html.Div("Pic de puissance", className="text-muted small"),
+        html.Div([
+            "Pic de puissance",
+            html.Span(" i", id="kpi-max-help", className="ms-1 text-secondary", style={"cursor":"pointer"}),
+            dbc.Tooltip(
+                "Valeur maximale observée (avec horodatage en dessous). Les valeurs négatives (ex : pompage, exportation) ne sont pas prises en compte.",
+                target="kpi-max-help", placement="right"
+            ),
+        ], className="text-muted small"),
         html.H4(id="kpi-max", className="m-0"),
-        html.Div(id="kpi-max-ts", className="text-muted small")
+        html.Div(id="kpi-max-ts", className="text-muted small"),
     ])), md=4),
+
     dbc.Col(dbc.Card(dbc.CardBody([
-        html.Div("Creux de puissance", className="text-muted small"),
+        html.Div([
+            "Creux de puissance",
+            html.Span(" i", id="kpi-min-help", className="ms-1 text-secondary", style={"cursor":"pointer"}),
+            dbc.Tooltip(
+                "Valeur minimale observée. Les valeurs négatives (ex : pompage, exportation) ne sont pas prises en compte.",
+                target="kpi-min-help", placement="right"
+            ),
+        ], className="text-muted small"),
         html.H4(id="kpi-min", className="m-0"),
-        html.Div(id="kpi-min-ts", className="text-muted small")
+        html.Div(id="kpi-min-ts", className="text-muted small"),
     ])), md=4),
 ], className="g-3 mb-3")
+
+
+# -------------------------------
 
 main_charts = dbc.Row([
     dbc.Col(dbc.Card(dbc.CardBody([
@@ -183,6 +223,8 @@ eco2mix_layout = html.Div([
     Input("eco2-series", "value"),
     Input("eco2-options", "value"),
 )
+
+
 
 
 def maj_graphs(start_date, end_date, freq, series, options):
