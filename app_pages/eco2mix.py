@@ -183,6 +183,8 @@ eco2mix_layout = html.Div([
     Input("eco2-series", "value"),
     Input("eco2-options", "value"),
 )
+
+
 def maj_graphs(start_date, end_date, freq, series, options):
     options = options or []
     series = [s for s in (series or []) if s in df.columns]
@@ -205,7 +207,9 @@ def maj_graphs(start_date, end_date, freq, series, options):
     agg = resample_power(dff[["Datetime"] + series], freq, series)
 
     # -------- KPI (total sélection) --------
-    total_series = agg[series].sum(axis=1)
+    # Ne garder que les filières qui produisent de l'énergie
+    filieres_prod = [f for f in series if f not in ["Export.", "Import.", "Pompage"]]
+    total_series = agg[filieres_prod].sum(axis=1)
     moy = np.nanmean(total_series) if len(total_series) else np.nan
     idx_max = int(np.nanargmax(total_series)) if len(total_series) else None
     idx_min = int(np.nanargmin(total_series)) if len(total_series) else None
@@ -223,7 +227,7 @@ def maj_graphs(start_date, end_date, freq, series, options):
     kpi_min_ts = (agg["Datetime"].iloc[idx_min].strftime("%d/%m/%Y %H:%M")
                   if idx_min is not None else "")
 
-    # -------- Aire empilée --------
+    # -------- PLOTS --------
     long = agg.melt(id_vars="Datetime", value_vars=series, var_name="Filière", value_name="Puissance (MW)")
 
     percent_mode = "percent" in options
@@ -255,20 +259,64 @@ def maj_graphs(start_date, end_date, freq, series, options):
             fig_area.update_traces(stackgroup=None)
         y_title = "% du total"
     else:
-        area_long = long.copy()
-        area_long["Puissance (MW)"] = area_long["Puissance (MW)"].clip(lower=0)
-        fig_area = px.area(
-            area_long,
-            x="Datetime",
-            y="Puissance (MW)",
-            color="Filière",
-            color_discrete_map=PALETTE,
-            labels={"Puissance (MW)": "Puissance (MW)"},
-            hover_data={"Filière": True, "Puissance (MW)": ":.2f"},
-        )
-        if not stack:
-            fig_area.update_traces(stackgroup=None)
-        y_title = "Puissance (MW)"
+        if stack:
+            # On sépare positives et négatives pour afficher les aires correctement
+            area_long = long.copy()
+            area_long_pos = area_long.copy()
+            area_long_pos["Puissance (MW)"] = area_long_pos["Puissance (MW)"].clip(lower=0)
+            area_long_pos = area_long_pos[area_long_pos["Puissance (MW)"] > 0]
+
+            area_long_neg = area_long.copy()
+            area_long_neg["Puissance (MW)"] = area_long_neg["Puissance (MW)"].clip(upper=0)
+            area_long_neg = area_long_neg[area_long_neg["Puissance (MW)"] < 0]
+
+            # Positives
+            if area_long_pos.empty:
+                fig_area = px.area(pd.DataFrame({"Datetime": [], "val": []}), x="Datetime", y="val")
+            else:
+                fig_area = px.area(
+                    area_long_pos,
+                    x="Datetime",
+                    y="Puissance (MW)",
+                    color="Filière",
+                    color_discrete_map=PALETTE,
+                    labels={"Puissance (MW)": "Puissance (MW)"},
+                    hover_data={"Filière": True, "Puissance (MW)": ":.2f"},
+                )
+
+            # Negatives
+            fig_neg = None
+            if not area_long_neg.empty:
+                fig_neg = px.area(
+                    area_long_neg,
+                    x="Datetime",
+                    y="Puissance (MW)",  # valeurs < 0 -> aires sous 0
+                    color="Filière",
+                    color_discrete_map=PALETTE,
+                    labels={"Puissance (MW)": "Puissance (MW)"},
+                    hover_data={"Filière": True, "Puissance (MW)": ":.2f"},
+                )
+            if "stack" in options: 
+                for tr in getattr(fig_area, "data", []):
+                    tr.stackgroup = "pos"
+                    tr.fill = "tonexty"
+                if fig_neg is not None:
+                    fig_area.add_traces(fig_neg.data)
+    
+
+            y_title = "Puissance (MW)"
+        else:
+            fig_area = px.line(
+                long,
+                x="Datetime",
+                y="Puissance (MW)",
+                color="Filière",
+                color_discrete_map=PALETTE,
+                labels={"Puissance (MW)": "Puissance (MW)"},
+                hover_data={"Filière": True, "Puissance (MW)": ":.2f"},
+            )
+            
+            y_title = "Puissance (MW)"
 
     fig_area.update_layout(
         template="plotly_white",
