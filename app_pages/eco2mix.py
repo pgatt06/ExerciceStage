@@ -251,6 +251,8 @@ def maj_graphs(start_date, end_date, freq, series, options):
             labels={"% du total": "% du total"},
             hover_data={"Filière": True, "% du total": ":.2f"},
         )
+        if not stack:
+            fig_area.update_traces(stackgroup=None)
         y_title = "% du total"
     else:
         area_long = long.copy()
@@ -264,6 +266,8 @@ def maj_graphs(start_date, end_date, freq, series, options):
             labels={"Puissance (MW)": "Puissance (MW)"},
             hover_data={"Filière": True, "Puissance (MW)": ":.2f"},
         )
+        if not stack:
+            fig_area.update_traces(stackgroup=None)
         y_title = "Puissance (MW)"
 
     fig_area.update_layout(
