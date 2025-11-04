@@ -1,0 +1,12 @@
+Télécharger les données "En-cours annuel consolidé" sur eco2mix:
+https://www.rte-france.com/eco2mix/telecharger-les-indicateurs
+Voir ici:
+https://www.rte-france.com/eco2mix/la-production-delectricite-par-filiere
+Attention, le format du fichier téléchargé est un .csv (séparé par des tabulations),
+et pas un .xls comme l'extension le laisse penser... :)
+
+
+Les prix SPOT de l'électricité peuvent être téléchargés ici:
+https://ember-energy.org/data/european-wholesale-electricity-price-data/
+Choisir "hourly", puis récupérer le fichier "France.csv"
+

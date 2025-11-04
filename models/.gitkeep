@@ -1,0 +1,3 @@
+Déposer ici autant de fichier .pkl que souhaité
+Ils seront détectés par l'application
+Ils doivent tous implémenter une fonction .predict()

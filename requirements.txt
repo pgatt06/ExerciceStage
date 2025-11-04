@@ -1,0 +1,7 @@
+pandas
+plotly
+nbformat>=4.2.0
+dash
+dash_bootstrap_components
+scikit-learn
+ipykernel

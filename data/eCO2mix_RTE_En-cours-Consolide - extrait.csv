@@ -1,0 +1,7 @@
+"Périmètre	Nature	Date	Heures	Consommation	Prévision J-1	Prévision J	Fioul	Charbon	Gaz	Nucléaire	Eolien	Solaire	Hydraulique	Pompage	Bioénergies	Ech. physiques	Taux de Co2	Ech. comm. Angleterre	Ech. comm. Espagne	Ech. comm. Italie	Ech. comm. Suisse	Ech. comm. Allemagne-Belgique	Fioul - TAC	Fioul - Cogén.	Fioul - Autres	Gaz - TAC	Gaz - Cogén.	Gaz - CCG	Gaz - Autres	Hydraulique - Fil de l?eau + éclusée	Hydraulique - Lacs	Hydraulique - STEP turbinage	Bioénergies - Déchets	Bioénergies - Biomasse	Bioénergies - Biogaz	 Stockage batterie	Déstockage batterie	Eolien terrestre	Eolien offshore"
+"France	Données consolidées	2024-12-31	22:45		62950	63100												2983	-3237	-3757	-3197	4956																		"
+"France	Données consolidées	2024-12-31	23:00	65321	64200	64300	90	17	2133	50857	10461	0	5459	-2022	1258	-2847	19	3009	-2900	-3589	-3200	3805	14	57	19	101	659	623	749	4542	762	155	549	369	339	0	0	9160	1301	"
+"France	Données consolidées	2024-12-31	23:15		64500	64550												3009	-2900	-3589	-3200	3805																		"
+"France	Données consolidées	2024-12-31	23:30	64934	64800	64800	91	16	2122	51004	10560	0	5366	-2002	1270	-3391	19	3009	-2900	-3589	-3200	3805	14	58	19	101	659	613	748	4615	521	230	556	373	340	0	0	9223	1337	"
+"France	Données consolidées	2024-12-31	23:45		64400	64500												3009	-2900	-3589	-3200	3805																		"
+RTE ne pourra être tenu responsable de l'usage qui pourrait être fait des données mises à disposition, ni en cas de prévisions qui se révèleraient imprécises.

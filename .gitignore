@@ -1,0 +1,6 @@
+__pycache__
+*.ipynb
+*.csv
+*.pkl
+data/eCO2mix_RTE_En-cours-Consolide.*
+data/France.csv
