@@ -5,3 +5,10 @@ dash
 dash_bootstrap_components
 scikit-learn
 ipykernel
+matplotlib
+xgboost
+joblib
+numpy
+requests
+pandas
+plotly
