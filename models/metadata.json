@@ -1,0 +1,124 @@
+{
+  "features": [
+    "Consommation",
+    "Prévision J-1",
+    "Prévision J",
+    "Fioul",
+    "Charbon",
+    "Gaz",
+    "Nucléaire",
+    "Eolien",
+    "Solaire",
+    "Hydraulique",
+    "Pompage",
+    "Bioénergies",
+    "Ech. physiques",
+    "Taux de Co2",
+    "Ech. comm. Angleterre",
+    "Ech. comm. Espagne",
+    "Ech. comm. Italie",
+    "Ech. comm. Suisse",
+    "Ech. comm. Allemagne-Belgique",
+    "Fioul - TAC",
+    "Fioul - Cogén.",
+    "Fioul - Autres",
+    "Gaz - TAC",
+    "Gaz - Cogén.",
+    "Gaz - CCG",
+    "Gaz - Autres",
+    "Hydraulique - Fil de l?eau + éclusée",
+    "Hydraulique - Lacs",
+    "Hydraulique - STEP turbinage",
+    "Bioénergies - Déchets",
+    "Bioénergies - Biomasse",
+    "Bioénergies - Biogaz",
+    " Stockage batterie",
+    "Déstockage batterie",
+    "Eolien terrestre",
+    "Eolien offshore"
+  ],
+  "target": "Price (EUR/MWhe)",
+  "train_start": "2024-01-01 00:00:00",
+  "train_end": "2024-12-01 22:00:00",
+  "holdout_start": "2024-12-01 23:00:00",
+  "holdout_end": "2024-12-31 23:00:00",
+  "n_train_rows": 8063,
+  "n_holdout_rows": 721,
+  "cv_summary": [
+    {
+      "model": "RandomForest",
+      "MAE": 20.22162601092896,
+      "RMSE": 695.2045803994235,
+      "MedAE": 16.68273,
+      "R2": 0.482177451704107
+    },
+    {
+      "model": "XGBRegressor",
+      "MAE": 20.245401058601562,
+      "RMSE": 696.5418905787171,
+      "MedAE": 16.928344650268553,
+      "R2": 0.4796143467069906
+    },
+    {
+      "model": "LinearRegression",
+      "MAE": 29.959219346936987,
+      "RMSE": 2212.4134325970203,
+      "MedAE": 29.837972404946743,
+      "R2": -0.9479465132971565
+    },
+    {
+      "model": "Ridge",
+      "MAE": 30.307815430264263,
+      "RMSE": 2305.3582338105107,
+      "MedAE": 30.50714503461044,
+      "R2": -1.0386594979115373
+    },
+    {
+      "model": "Lasso",
+      "MAE": 30.848330043344284,
+      "RMSE": 2442.84780531888,
+      "MedAE": 31.51476842359787,
+      "R2": -1.166971896868102
+    }
+  ],
+  "holdout_metrics": {
+    "LinearRegression": {
+      "MAE": 20.310752457767745,
+      "RMSE": 840.5422111113306,
+      "MedAE": 15.476707507314373,
+      "R2": 0.6439691212429121
+    },
+    "Ridge": {
+      "MAE": 20.406000527918003,
+      "RMSE": 843.8905983034714,
+      "MedAE": 15.709428411673173,
+      "R2": 0.6425508352619371
+    },
+    "Lasso": {
+      "MAE": 20.432944329781566,
+      "RMSE": 846.8591632732334,
+      "MedAE": 15.573129402833871,
+      "R2": 0.6412934316707071
+    },
+    "RandomForest": {
+      "MAE": 19.94917794729542,
+      "RMSE": 972.9301408048962,
+      "MedAE": 13.070900000000023,
+      "R2": 0.587893185587863
+    },
+    "XGBRegressor": {
+      "MAE": 20.94014138465719,
+      "RMSE": 1131.57112386157,
+      "MedAE": 12.89033203125,
+      "R2": 0.5206971687098065
+    }
+  },
+  "saved_pkls": [
+    "models/linearregression.pkl",
+    "models/randomforest.pkl",
+    "models/ridge.pkl",
+    "models/lasso.pkl",
+    "models/xgbregressor.pkl"
+  ],
+  "notes": "Chaque .pkl est un pipeline sklearn (imputer+scaler+modele) acceptant une DataFrame avec au moins les colonnes 'features'."
+}
