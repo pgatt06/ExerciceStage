@@ -9,6 +9,7 @@ import requests
 import plotly.express as px
 from dash import dcc, html, Input, Output, State, callback, no_update
 from sklearn.metrics import mean_squared_error
+from sklearn.metrics import r2_score
 
 # =============================================================================
 # Constantes / Configuration
@@ -385,6 +386,9 @@ def run_forecasts(n_clicks: int, model_filename: Optional[str], store: Optional[
     df_eval = df_eval.rename(columns={"Price (EUR/MWhe)":"Prix Spot Réel"}).sort_values("Datetime").reset_index(drop=True)
 
     rmse = np.sqrt(mean_squared_error(df_eval["Prix Spot Réel"], df_eval["Prix Spot Prédit"]))
+    mae = np.mean(np.abs(df_eval["Prix Spot Réel"] - df_eval["Prix Spot Prédit"]))
+    mape = np.mean(np.abs((df_eval["Prix Spot Réel"] - df_eval["Prix Spot Prédit"]) / df_eval["Prix Spot Réel"])) * 100
+    r2 = r2_score(df_eval["Prix Spot Réel"], df_eval["Prix Spot Prédit"])
 
     # Figure
     fig = px.line(
@@ -393,7 +397,12 @@ def run_forecasts(n_clicks: int, model_filename: Optional[str], store: Optional[
     )
     fig.update_layout(xaxis_title="Date", yaxis_title="Prix")
 
+    
+
     return html.Div([
         dcc.Graph(figure=fig),
-        html.P(f"RMSE du modèle : {rmse:.2f}", style={"fontWeight":"bold","marginTop":"10px"})
+        html.P(f"RMSE du modèle : {rmse:.2f}", style={"fontWeight":"bold","marginTop":"10px"}),
+        html.P(f"MAE du modèle : {mae:.2f}", style={"fontWeight":"bold","marginTop":"4px"}),
+        html.P(f"MAPE du modèle : {mape:.2f}%", style={"fontWeight":"bold","marginTop":"4px"}),
+        html.P(f"R² du modèle : {r2:.3f}", style={"fontWeight":"bold","marginTop":"4px"}),
     ])
